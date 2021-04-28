@@ -1,34 +1,32 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 
-const UserName = (props) => {
-  return <div>Username: {props.username}</div>
-}
-
-const UserRepository = (props) => {
-  return <div>
-    
-    <div>
-      {props.name}
-    </div>
-  </div>
-}
+import Header from './header'
 
 const UserData = () => {
+  const { userName } = useParams()
   const [repositories, getRepositories] = useState([])
+  
   useEffect(() => {
-    axios.get(`https://api.github.com/users/artur-i/repos`)
+    axios.get(`https://api.github.com/users/${userName}/repos`)
       .then(repos => getRepositories(repos.data))
     return () => {}
-  }, [])
-  return <div>
-    <Link to="/">Back to Search</Link>
-    <UserName />
-    {repositories.map(repo => {
-      return <UserRepository key={repo.name} {...repo} />
-    })}
-  </div>
+  }, [userName])
+  return (
+    <div>
+      <Header user={userName} />
+      <div>
+        {repositories.map(repo => {
+          return (
+            <li key={repo.id}>
+              <Link to={`/${userName}/${repo.name}`}>{repo.name}</Link>
+            </li>
+          )
+        })}
+      </div>
+    </div>
+  )
 }
 
 UserData.propTypes = {}

@@ -10,6 +10,7 @@ import store, { history } from '../redux'
 
 import GitBrowser from '../components/git-browser'
 import UserData from '../components/userData'
+import Readme from '../components/readme'
 import Home from '../components/home'
 import DummyView from '../components/dummy-view'
 import NotFound from '../components/404'
@@ -87,7 +88,7 @@ const RootComponent = (props) => {
           <Switch>
             <Route exact path="/" component={() => <GitBrowser />} />
             <Route exact path="/:userName" component={() => <UserData user={props.userName} />} />
-            <Route exact path="/:userName/:repositoryName" component={() => <GitBrowser />} />
+            <Route exact path="/:userName/:repositoryName" component={() => <Readme />} />
             <Route exact path="/dashboard" component={() => <Home />} />
             <Route exact path="/dashboard/*" component={() => <Home />} />
             <PrivateRouteConnected exact path="/hidden-route" component={() => <DummyView />} />
